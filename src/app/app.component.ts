@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 export class User {
   id: number;
   name: string;
-  tokens: Array<number>;
+  tokens: Array<any>;
 }
 export class Topic {
   id: number;
@@ -58,13 +58,8 @@ const TOPICS: Topic[] = [
     }
     .users li {
       cursor: pointer;
-      position: relative;
-      left: 0;
       background-color: #EEE;
-      margin: .5em;
-      padding: .3em 0;
       height: 1.6em;
-      border-radius: 4px;
     }
     .users li.selected:hover {
       background-color: #BBD8DC !important;
@@ -75,24 +70,6 @@ const TOPICS: Topic[] = [
       background-color: #DDD;
       left: .1em;
     }
-    .users .text {
-      position: relative;
-      top: -3px;
-    }
-    .users .badge {
-      display: inline-block;
-      font-size: small;
-      color: white;
-      padding: 0.8em 0.7em 0 0.7em;
-      background-color: #607D8B;
-      line-height: 1em;
-      position: relative;
-      left: -1px;
-      top: -4px;
-      height: 1.8em;
-      margin-right: .8em;
-      border-radius: 4px 0 0 4px;
-    }
   `]
 })
 export class AppComponent {
@@ -100,7 +77,7 @@ export class AppComponent {
   topics = TOPICS;
   selectedUser: User;
   selectedTopic: Topic;
-  availableTopics: Array<number>;
+  availableTopics: Array<any>;
 
   onSelect(user: User) {
     var that =  this;
