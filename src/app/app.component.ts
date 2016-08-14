@@ -1,15 +1,8 @@
 import { Component } from '@angular/core';
+import { AppService } from './app.service';
 import * as _ from 'lodash';
-
-export class User {
-  id: number;
-  name: string;
-  tokens: Array<any>;
-}
-export class Topic {
-  id: number;
-  name: string;
-}
+import { User } from './user';
+import { Topic } from './topic';
 
 const USERS: User[] = [
   { id: 11, name: 'Eva', tokens: [1, 2, 3] },
@@ -35,12 +28,18 @@ const TOPICS: Topic[] = [
       </li>
     </ul>
     <div *ngIf="selectedUser">
-      <h2>{{selectedUser.name}} Tokens!</h2>
-      <ul>
+      <ul class="topics">
         <li *ngFor="let topic of availableTopics"
         [class.selected]="topic === selectedTopic"
         (click)="onSelectTopic(topic)">
         {{topic.name}}
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="selectedTopic">
+      <ul class="content">
+        <li *ngFor="let content of availableContent">
+        {{content}}
         </li>
       </ul>
     </div>
@@ -50,34 +49,42 @@ const TOPICS: Topic[] = [
       background-color: #CFD8DC !important;
       color: white;
     }
-    .users {
+    .users, 
+    .topics {
       display: flex;
       margin: 0;
       list-style-type: none;
       padding: 0;
     }
-    .users li {
+    .users li, 
+    .topics li {
       cursor: pointer;
       background-color: #EEE;
-      height: 1.6em;
+      flex: 1;
+      text-align: center;
     }
-    .users li.selected:hover {
+    .users li.selected:hover,
+    .topics li.selected:hover {
       background-color: #BBD8DC !important;
       color: white;
     }
-    .users li:hover {
+    .users li:hover, 
+    .topics li:hover {
       color: #607D8B;
       background-color: #DDD;
       left: .1em;
     }
-  `]
+  `],
+  providers: [ AppService ]
 })
 export class AppComponent {
+  appService = AppService;
   users = USERS;
   topics = TOPICS;
-  selectedUser: User;
-  selectedTopic: Topic;
+  selectedUser : User;
+  selectedTopic : Topic;
   availableTopics: Array<any>;
+  availableContent: string;
 
   onSelect(user: User) {
     var that =  this;
@@ -92,7 +99,12 @@ export class AppComponent {
   }
   onSelectTopic(topic: Topic) {
     this.selectedTopic = topic;
-    // this.availableTopics = _.difference(topic.tokens, this.topics );
-    // console.log('availableTopics', this.availableTopics)
+    console.log('app data', this.selectedUser.name, topic.name);
+    console.log('app Service', this.appService);
+
+    // console.log('app Service', this.appService.getUserData(this.selectedUser, this.selectedTopic));
+    // this.appService.getUserData(this.selectedUser, this.selectedTopic).then(function (content) {
+    //   console.log(content);
+    // });
   }
 }
